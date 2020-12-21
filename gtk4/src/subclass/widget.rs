@@ -6,10 +6,11 @@ use glib::translate::*;
 use glib::Cast;
 
 use crate::{
-    AccessibleRole, DirectionType, LayoutManager, Orientation, Shortcut, SizeRequestMode, Snapshot,
-    StateFlags, SystemSetting, TextDirection, Tooltip, Widget, WidgetExt,
+    AccessibleRole, BuilderScope, DirectionType, LayoutManager, Orientation, Shortcut,
+    SizeRequestMode, Snapshot, StateFlags, SystemSetting, TextDirection, Tooltip, Widget,
+    WidgetExt,
 };
-use glib::Object;
+use glib::{IsA, Object};
 
 pub trait WidgetImpl: WidgetImplExt + ObjectImpl {
     fn compute_expand(&self, widget: &Self::Type, hexpand: &mut bool, vexpand: &mut bool) {
@@ -876,6 +877,13 @@ pub unsafe trait WidgetClassSubclassExt: ClassStruct {
         }
     }
 
+    fn set_template_scope<S: IsA<BuilderScope>>(&mut self, scope: &S) {
+        unsafe {
+            let widget_class = self as *mut _ as *mut ffi::GtkWidgetClass;
+            ffi::gtk_widget_class_set_template_scope(widget_class, scope.as_ref().to_glib_none().0);
+        }
+    }
+
     fn bind_template_child(&mut self, name: &str) {
         unsafe {
             let widget_class = self as *mut _ as *mut ffi::GtkWidgetClass;
@@ -892,6 +900,27 @@ pub unsafe trait WidgetClassSubclassExt: ClassStruct {
         unsafe {
             let widget_class = self as *mut _ as *mut ffi::GtkWidgetClass;
             ffi::gtk_widget_class_add_shortcut(widget_class, shortcut.to_glib_none().0);
+        }
+    }
+
+    fn install_property_action(&mut self, action_name: &str, property_name: &str) {
+        unsafe {
+            let widget_class = self as *mut _ as *mut ffi::GtkWidgetClass;
+            ffi::gtk_widget_class_install_property_action(
+                widget_class,
+                action_name.to_glib_none().0,
+                property_name.to_glib_none().0,
+            );
+        }
+    }
+
+    fn set_activate_signal_from_name(&mut self, signal_name: &str) {
+        unsafe {
+            let widget_class = self as *mut _ as *mut ffi::GtkWidgetClass;
+            ffi::gtk_widget_class_set_activate_signal_from_name(
+                widget_class,
+                signal_name.to_glib_none().0,
+            );
         }
     }
 
