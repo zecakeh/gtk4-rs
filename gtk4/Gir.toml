@@ -180,7 +180,8 @@ generate = [
 
 ignore = [
     "Gtk.BuilderCScope", # not useful for rust
-    "Gtk.CClosureExpression", # not useful for rust,
+    "Gtk.CClosureExpression", # not useful for rust
+    "Gtk.CellAreaClass", # manual with subclassing
     "Gtk.CustomLayout", # subclass LayoutManager if you need a custom layout.
     "Gtk.WidgetClass", # manual with subclassing
 ]
@@ -262,6 +263,7 @@ manual = [
     "Graphene.Vec4",
     "Gsk.BlendMode",
     "Gsk.ColorStop",
+    "Gsk.GLShader",
     "Gsk.Renderer",
     "Gsk.RenderNode",
     "Gsk.RoundedRect",
