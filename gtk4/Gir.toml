@@ -19,7 +19,6 @@ generate = [
     # "Gtk.ObjectExpression",
     # "Gtk.ParamSpecExpression",
     # "Gtk.PropertyExpression",
-    # "Gtk.RequestedSize", a record
     "Gtk.Accessible",
     "Gtk.AccessibleAutocomplete",
     "Gtk.AccessibleInvalidState",
@@ -274,6 +273,7 @@ manual = [
     "Gtk.PadActionEntry",
     "Gtk.PageRange",
     "Gtk.RecentData",
+    "Gtk.RequestedSize",
     "Gtk.Requisition",
     "Gtk.ResponseType",
     "Pango.Alignment",
