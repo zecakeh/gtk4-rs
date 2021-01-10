@@ -61,6 +61,7 @@ manual = [
     "Graphene.Vec3",
     "Graphene.Vec4",
     "Gsk.ColorStop",
+    "Gsk.ParseLocation",
     "Gsk.RoundedRect",
     "Gsk.Shadow",
     "Pango.Font",

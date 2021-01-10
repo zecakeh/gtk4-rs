@@ -45,6 +45,7 @@ mod border_node;
 mod color_stop;
 mod conic_gradient_node;
 mod linear_gradient_node;
+mod parse_location;
 mod radial_gradient_node;
 mod repeating_linear_gradient_node;
 mod repeating_radial_gradient_node;
@@ -54,5 +55,6 @@ mod shadow_node;
 
 pub use border_node::BorderNodeManualExt;
 pub use color_stop::ColorStop;
+pub use parse_location::ParseLocation;
 pub use rounded_rect::RoundedRect;
 pub use shadow::Shadow;

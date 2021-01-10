@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::ParseLocation;
 use crate::RenderNodeType;
 use glib::object::IsA;
 use glib::translate::*;
@@ -17,10 +18,50 @@ glib::wrapper! {
 }
 
 impl RenderNode {
-    //#[doc(alias = "gsk_render_node_deserialize")]
-    //pub fn deserialize(bytes: &glib::Bytes, error_func: /*Unimplemented*/FnMut(/*Ignored*/ParseLocation, /*Ignored*/ParseLocation, &glib::Error), user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Option<RenderNode> {
-    //    unsafe { TODO: call ffi:gsk_render_node_deserialize() }
-    //}
+    #[doc(alias = "gsk_render_node_deserialize")]
+    pub fn deserialize(
+        bytes: &glib::Bytes,
+        error_func: Option<&mut dyn (FnMut(&ParseLocation, &ParseLocation, &glib::Error))>,
+    ) -> Option<RenderNode> {
+        assert_initialized_main_thread!();
+        let error_func_data: Option<
+            &mut dyn (FnMut(&ParseLocation, &ParseLocation, &glib::Error)),
+        > = error_func;
+        unsafe extern "C" fn error_func_func(
+            start: *const ffi::GskParseLocation,
+            end: *const ffi::GskParseLocation,
+            error: *const glib::ffi::GError,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let start = from_glib_borrow(start);
+            let end = from_glib_borrow(end);
+            let error = from_glib_borrow(error);
+            let callback: *mut Option<
+                &mut dyn (FnMut(&ParseLocation, &ParseLocation, &glib::Error)),
+            > = user_data as *const _ as usize
+                as *mut Option<&mut dyn (FnMut(&ParseLocation, &ParseLocation, &glib::Error))>;
+            if let Some(ref mut callback) = *callback {
+                callback(&start, &end, &error)
+            } else {
+                panic!("cannot get closure...")
+            };
+        }
+        let error_func = if error_func_data.is_some() {
+            Some(error_func_func as _)
+        } else {
+            None
+        };
+        let super_callback0: &Option<
+            &mut dyn (FnMut(&ParseLocation, &ParseLocation, &glib::Error)),
+        > = &error_func_data;
+        unsafe {
+            from_glib_full(ffi::gsk_render_node_deserialize(
+                bytes.to_glib_none().0,
+                error_func,
+                super_callback0 as *const _ as usize as *mut _,
+            ))
+        }
+    }
 }
 
 pub const NONE_RENDER_NODE: Option<&RenderNode> = None;
