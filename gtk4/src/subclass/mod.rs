@@ -22,6 +22,7 @@ pub mod entry_buffer;
 pub mod file_chooser;
 pub mod filter;
 pub mod flow_box_child;
+pub mod font_chooser;
 pub mod frame;
 pub mod gl_area;
 pub mod layout_manager;
@@ -83,6 +84,7 @@ pub mod prelude {
     pub use super::file_chooser::FileChooserImpl;
     pub use super::filter::FilterImpl;
     pub use super::flow_box_child::FlowBoxChildImpl;
+    pub use super::font_chooser::FontChooserImpl;
     pub use super::frame::FrameImpl;
     pub use super::gl_area::GLAreaImpl;
     pub use super::layout_manager::LayoutManagerImpl;
