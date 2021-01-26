@@ -8,6 +8,7 @@ pub mod application;
 pub mod application_window;
 pub mod box_;
 pub mod button;
+pub mod cell_area_context;
 pub mod cell_editable;
 pub mod cell_renderer;
 pub mod cell_renderer_text;
@@ -70,6 +71,7 @@ pub mod prelude {
     pub use super::application_window::ApplicationWindowImpl;
     pub use super::box_::BoxImpl;
     pub use super::button::ButtonImpl;
+    pub use super::cell_area_context::CellAreaContextImpl;
     pub use super::cell_editable::CellEditableImpl;
     pub use super::cell_renderer::CellRendererImpl;
     pub use super::cell_renderer_text::CellRendererTextImpl;
